@@ -1,0 +1,9 @@
+python-dotenv>=1.0.0
+pyzbar>=0.1.9
+opencv-python>=4.8.0
+requests>=2.31.0
+langchain>=0.0.300
+huggingface-hub>=0.17.0
+Pillow>=10.0.0  # Required for image processing
+numpy>=1.24.0   # Required for opencv
+python-dotenv
