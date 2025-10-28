@@ -18,21 +18,21 @@ def calculate_health_score(nutritional_data: dict) -> int:
     score = 10
     
     # Penalize high sugar
-    if nutritional_data.get("sugars_100g", 0) > 15:
+    if nutritional_data.get("sugars_100g", 0) > 4:
         score -= 2
-    elif nutritional_data.get("sugars_100g", 0) > 10:
+    elif nutritional_data.get("sugars_100g", 0) > 2:
         score -= 1
         
     # Penalize high sodium
-    if nutritional_data.get("sodium_100g", 0) > 1.5:
+    if nutritional_data.get("sodium_100g", 0) > 1:
         score -= 2
-    elif nutritional_data.get("sodium_100g", 0) > 1.0:
+    elif nutritional_data.get("sodium_100g", 0) > 0.5:
         score -= 1
         
     # Penalize high saturated fat
-    if nutritional_data.get("saturated_fat_100g", 0) > 10:
+    if nutritional_data.get("saturated_fat_100g", 0) > 5:
         score -= 2
-    elif nutritional_data.get("saturated_fat_100g", 0) > 5:
+    elif nutritional_data.get("saturated_fat_100g", 0) > 2.5:
         score -= 1
         
     # Reward high protein
