@@ -6,21 +6,21 @@ from langgraph.graph import END
 from src.state.health_state import HealthAnalysisState
 
 
-def route_after_classification(state: HealthAnalysisState) -> Literal["extract_data", "fetch_external_data", END]:
+def route_after_classification(state: HealthAnalysisState) -> str:
     """
     Decide next step based on data availability.
     """
-    if state.get("needs_external_data"):
-        return "fetch_external_data"
+    if state.needs_external_data:
+        return END
     else:
         return "extract_data"
 
 
-def route_after_extraction(state: HealthAnalysisState) -> Literal["llm_analysis", END]:
+def route_after_extraction(state: HealthAnalysisState) -> str:
     """
     Decide if LLM analysis is needed.
     """
-    if state.get("analysis_type") == "detailed":
+    if state.analysis_type == "detailed":
         return "llm_analysis"
     else:
         return END
