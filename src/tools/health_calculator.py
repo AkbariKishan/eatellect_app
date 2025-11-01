@@ -32,7 +32,7 @@ def evaluate_nutrient(value: float, standard: Dict[str, float]) -> float:
     return 0.0
 
 @tool
-def calculate_health_score(nutritional_data: dict) -> Tuple[int, Dict[str, str]]:
+def calculate_health_score(nutritional_data: dict) -> float:
     """
     Calculate a health score (1-10) based on WHO and FDA nutritional guidelines.
     
@@ -40,7 +40,7 @@ def calculate_health_score(nutritional_data: dict) -> Tuple[int, Dict[str, str]]
         nutritional_data: Dictionary containing nutrients per 100g
         
     Returns:
-        Tuple of (health score from 1-10, detailed analysis)
+        Health score from 1-10
     """
     base_score = 7.0  # Start from neutral-positive
     analysis = {}
@@ -112,6 +112,6 @@ def calculate_health_score(nutritional_data: dict) -> Tuple[int, Dict[str, str]]
         analysis["calories"] = "Moderate calorie density"
     
     # Ensure score stays within bounds
-    final_score = max(1, min(10, round(score)))
+    final_score = max(1.0, min(10.0, round(score, 1)))
     
-    return final_score, analysis
+    return final_score
