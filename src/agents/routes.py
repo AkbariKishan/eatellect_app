@@ -1,7 +1,6 @@
 """
 Conditional routing logic for the workflow.
 """
-from typing import Literal
 from langgraph.graph import END
 from src.state.health_state import HealthAnalysisState
 
@@ -14,13 +13,3 @@ def route_after_classification(state: HealthAnalysisState) -> str:
         return END
     else:
         return "extract_data"
-
-
-def route_after_extraction(state: HealthAnalysisState) -> str:
-    """
-    Decide if LLM analysis is needed.
-    """
-    if state.analysis_type == "detailed":
-        return "llm_analysis"
-    else:
-        return END
