@@ -2,7 +2,6 @@
 Agent nodes for the health analysis workflow.
 """
 import asyncio
-from typing import Optional
 from langchain_core.messages import SystemMessage
 from src.state.health_state import HealthAnalysisState
 from src.tools.product_fetcher import ProductFetcher
@@ -105,10 +104,6 @@ def llm_analysis_node(state: HealthAnalysisState) -> HealthAnalysisState:
     print(f"Product Info: {state.product_info}")
     print(f"Nutritional Data: {state.nutritional_data}")
     print(f"Concerns: {state.concerns}")
-    
-    import asyncio
-    from src.agents.parallel import parallel_llm_analysis
-    from src.models.llm_config import get_groq_llm
     
     try:
         # Validate state and preserve data
