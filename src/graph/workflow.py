@@ -2,7 +2,6 @@
 LangGraph workflow construction with improved error handling and logging.
 """
 from typing import Dict, Any
-from dataclasses import asdict
 from langgraph.graph import StateGraph, END
 from src.state.health_state import HealthAnalysisState
 from src.agents.nodes import barcode_extraction_node
