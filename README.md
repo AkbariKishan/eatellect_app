@@ -55,15 +55,16 @@ Reading and understanding nutrition labels can be overwhelming. Eatellect elimin
 Eatellect uses a multi-agent LangGraph architecture:
 
 ```
-User Image → Barcode Detection → Product Lookup → Nutrition Extraction → LLM Analysis → Health Insights
-                (OpenCV)        (Open Food Facts)    (Structured Data)     (Groq/Llama)   (User Output)
+Barcode Extraction → Classifier → Data Extraction → Alternatives Search → LLM Analysis
+     (OpenCV)       (Routing)   (Open Food Facts)   (Vector Search)    (Groq/Llama)
 ```
 
 ### Agent Workflow
-1. **Vision Agent**: Processes uploaded image using cv2.imdecode()
-2. **Data Agent**: Retrieves product information from Open Food Facts
-3. **Analysis Agent**: Performs LLM-based health evaluation with token optimization
-4. **Response Agent**: Formats insights for user consumption
+1. **Barcode Extraction**: Processes uploaded image to detect and decode barcodes.
+2. **Classifier**: Determines the next step based on barcode validity and product type.
+3. **Data Extraction**: Retrieves detailed product information from Open Food Facts.
+4. **Alternatives Search**: Finds healthier alternatives for the scanned product.
+5. **LLM Analysis**: Performs comprehensive health evaluation and generates insights.
 
 ## 📦 Installation
 
