@@ -125,6 +125,11 @@ def llm_analysis_node(state: HealthAnalysisState) -> HealthAnalysisState:
         # Get LLM
         llm = get_groq_llm(temperature=0.7, max_tokens=1024)
         
+        # Add context to state for the LLM to see (if we were passing the whole state, but here we might need to update the parallel function too)
+        # For now, let's just print them to confirm availability, and we'll need to ensure parallel_llm_analysis uses them
+        print(f"User Context: {state.user_context}")
+        print(f"Alternatives Found: {len(state.alternatives)}")
+        
         # Use parallel execution for LLM tasks
         analysis_result = asyncio.run(parallel_llm_analysis(state, llm))
         

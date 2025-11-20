@@ -78,14 +78,20 @@ async def parallel_llm_analysis(state: HealthAnalysisState, llm) -> Dict[str, An
     Nutritional Data: {state.nutritional_data}
     Concerns: {state.concerns}
     Product Info: {state.product_info}
+    User Context: {state.user_context}
+    Alternatives Found: {state.alternatives}
     
-    Generate a detailed but concise health analysis including benefits, concerns, and implications."""
+    Generate a detailed but concise health analysis including benefits, concerns, and implications.
+    If alternatives are provided, compare the current product with the best alternative and explain why it is better."""
     
     recommendations_prompt = f"""Based on:
     Health Rating: {state.health_rating}/10
     Concerns: {state.concerns}
+    Alternatives: {state.alternatives}
+    User Context: {state.user_context}
     
     Provide 3-5 specific, actionable recommendations for consuming this product.
+    If alternatives are available, strongly suggest switching to them.
     Format as bullet points."""
     
     # Run LLM tasks in parallel

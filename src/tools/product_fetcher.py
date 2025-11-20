@@ -2,7 +2,7 @@
 Tool for fetching product information from Open Food Facts API.
 """
 import requests
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from dataclasses import dataclass
 
 
@@ -94,6 +94,71 @@ class ProductFetcher:
         except Exception as e:
             print(f"\n=== Unexpected Error ===\n{str(e)}")
             return ProductResponse(success=False, error=f"Unexpected error: {str(e)}")
+
+
+    def search_products(self, query: str = "", category: str = "", nutrition_grades: str = "") -> List[Dict[str, Any]]:
+        """
+        Search for products in Open Food Facts.
+        
+        Args:
+            query: Search terms
+            category: Product category tag
+            nutrition_grades: Comma-separated grades (e.g., "a,b")
+            
+        Returns:
+            List of product dictionaries
+        """
+        url = "https://world.openfoodfacts.org/cgi/search.pl"
+        params = {
+            "search_simple": 1,
+            "action": "process",
+            "json": 1,
+            "page_size": 5,
+            "sort_by": "popularity"
+        }
+        
+        if query:
+            params["search_terms"] = query
+            
+        if category:
+            params["tagtype_0"] = "categories"
+            params["tag_contains_0"] = "contains"
+            params["tag_0"] = category
+            
+        if nutrition_grades:
+            params["tagtype_1"] = "nutrition_grades"
+            params["tag_contains_1"] = "contains"
+            params["tag_1"] = nutrition_grades
+            
+        print(f"\n=== Searching Products ===")
+        print(f"Params: {params}")
+        
+        try:
+            headers = {
+                'User-Agent': 'Eatellect/1.0 (https://github.com/AkbariKishan/eatellect_app)',
+            }
+            response = requests.get(url, params=params, headers=headers, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            
+            products = data.get('products', [])
+            results = []
+            
+            for p in products:
+                results.append({
+                    'product_name': p.get('product_name', 'Unknown'),
+                    'brands': p.get('brands', 'Unknown'),
+                    'nutrition_grades': p.get('nutrition_grades', 'unknown'),
+                    'code': p.get('code'),
+                    'image_url': p.get('image_url')
+                })
+                
+            print(f"Found {len(results)} alternatives")
+            return results
+            
+        except Exception as e:
+            print(f"Search failed: {e}")
+            return []
 
 
 def fetch_product_info(barcode: str) -> dict:

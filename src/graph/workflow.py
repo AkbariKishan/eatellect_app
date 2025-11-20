@@ -10,6 +10,7 @@ from src.agents.nodes import (
     data_extraction_node,
     llm_analysis_node
 )
+from src.agents.alternatives_node import alternatives_search_node
 from src.agents.routes import route_after_classification
 
 
@@ -29,6 +30,7 @@ class HealthAnalysisWorkflow:
         workflow.add_node("barcode_extractor", barcode_extraction_node)
         workflow.add_node("classifier", classifier_node)
         workflow.add_node("extract_data", data_extraction_node)
+        workflow.add_node("find_alternatives", alternatives_search_node)
         workflow.add_node("llm_analysis", llm_analysis_node)
         
         # Set entry point
@@ -46,7 +48,8 @@ class HealthAnalysisWorkflow:
             }
         )
         
-        workflow.add_edge("extract_data", "llm_analysis")
+        workflow.add_edge("extract_data", "find_alternatives")
+        workflow.add_edge("find_alternatives", "llm_analysis")
         workflow.add_edge("llm_analysis", END)
         
         return workflow.compile()
@@ -78,6 +81,7 @@ class HealthAnalysisWorkflow:
                     "nutritional_data": result_state.get("nutritional_data", state.nutritional_data),
                     "concerns": result_state.get("concerns", state.concerns),
                     "final_analysis": result_state.get("final_analysis", state.final_analysis),
+                    "alternatives": result_state.get("alternatives", state.alternatives),
                     "allergens": {
                         "concerns": result_state.get("concerns", state.concerns)
                     }
@@ -91,6 +95,7 @@ class HealthAnalysisWorkflow:
                     "nutritional_data": getattr(result_state, "nutritional_data", state.nutritional_data),
                     "concerns": getattr(result_state, "concerns", state.concerns),
                     "final_analysis": getattr(result_state, "final_analysis", state.final_analysis),
+                    "alternatives": getattr(result_state, "alternatives", state.alternatives),
                     "allergens": {
                         "concerns": getattr(result_state, "concerns", state.concerns)
                     }

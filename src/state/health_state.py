@@ -26,6 +26,11 @@ class HealthAnalysisState:
     final_analysis: str = ""
     recommendations: List[str] = field(default_factory=list)
     
+    # Agentic features
+    alternatives: List[Dict[str, Any]] = field(default_factory=list)
+    user_context: Dict[str, Any] = field(default_factory=lambda: {"dietary_goals": [], "allergens": []})
+    search_criteria: Dict[str, Any] = field(default_factory=dict)
+    
     # Processing flags
     needs_external_data: bool = False
     
