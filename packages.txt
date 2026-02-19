@@ -1,2 +1,4 @@
 zbar-tools
 libzbar0
+libgl1
+libglib2.0-0
